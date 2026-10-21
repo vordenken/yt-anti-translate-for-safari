@@ -95,7 +95,7 @@ async function restoreOriginalBrandingHeader() {
       document.querySelectorAll(CHANNELBRANDING_HEADER_SELECTOR),
     )
   ) {
-    await chrome.storage.sync.get(
+    await chrome.storage.local.get(
       {
         youtubeDataApiKey: null,
       },
@@ -266,7 +266,7 @@ async function restoreOriginalBrandingAbout() {
       document.querySelectorAll(CHANNELBRANDING_ABOUT_SELECTOR),
     )
   ) {
-    await chrome.storage.sync.get(
+    await chrome.storage.local.get(
       {
         youtubeDataApiKey: null,
       },
@@ -463,7 +463,7 @@ async function untranslateBranding() {
 }
 
 // Initialize the mutation observer for branding
-chrome.storage.sync.get(
+chrome.storage.local.get(
   {
     disabled: false,
     untranslateChannelBranding: true,

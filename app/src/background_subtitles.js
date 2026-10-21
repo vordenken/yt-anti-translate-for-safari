@@ -1,3 +1,8 @@
+/* safari-main-world */
+// Safari: runs as a MAIN-world content script; the IIFE keeps module-like scope
+// prettier-ignore
+(async () => {
+"use strict";
 (() => {
   const RETRY_DELAY_MS = 150;
   const MAX_RETRIES = 12;
@@ -105,4 +110,6 @@
   }
 
   setSubtitles();
+})();
+
 })();

@@ -21,6 +21,20 @@
       "all_frames": true
     },
     {
+      "matches": ["*://*.youtube.com/*", "*://*.youtube-nocookie.com/*"],
+      "js": [
+        "src/global.js",
+        "src/background.js",
+        "src/background_notifications.js",
+        "src/background_audio.js",
+        "src/background_description.js",
+        "src/background_subtitles.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
       "matches": ["*://*.youtube.com/*"],
       "js": ["src/global.js"],
       "run_at": "document_end"

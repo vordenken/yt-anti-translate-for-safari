@@ -151,7 +151,7 @@ function renderFooterLinks() {
 }
 
 const reloadActiveYouTubeTab = (toggled = false) => {
-  chrome.storage.sync.get(
+  chrome.storage.local.get(
     {
       disabled: false,
       autoreloadOption: true,
@@ -191,7 +191,7 @@ const reloadActiveYouTubeTab = (toggled = false) => {
 
 function saveOptions() {
   reloadActiveYouTubeTab(/*toggled=*/ true);
-  chrome.storage.sync.get(
+  chrome.storage.local.get(
     {
       disabled: false,
       autoreloadOption: true,
@@ -215,7 +215,7 @@ function saveOptions() {
     },
     function (items) {
       const disabled = !items.disabled;
-      chrome.storage.sync.set(
+      chrome.storage.local.set(
         {
           disabled: disabled,
         },
@@ -238,7 +238,7 @@ function saveOptions() {
 }
 
 function loadOptions() {
-  chrome.storage.sync.get(
+  chrome.storage.local.get(
     {
       disabled: false,
       autoreloadOption: true,
@@ -342,7 +342,7 @@ function loadOptions() {
 }
 
 function checkboxUpdate() {
-  chrome.storage.sync.set(
+  chrome.storage.local.set(
     {
       autoreloadOption: /** @type {HTMLInputElement} */ (
         document.getElementById("reload-checkbox")
@@ -388,7 +388,7 @@ function subtitlesUpdate() {
 
   const subtitlesLanguage = subtitlesLanguageSelect.value || "original";
 
-  chrome.storage.sync.set(
+  chrome.storage.local.set(
     {
       subtitlesLanguage,
       subtitlesEnabled: subtitlesCheckbox.checked,
@@ -400,7 +400,7 @@ function subtitlesUpdate() {
 }
 
 function validateAndSaveWhitelist(textareaId, statusTextId, storageKey) {
-  chrome.storage.sync.get(
+  chrome.storage.local.get(
     {
       autoreloadOption: true,
     },
@@ -456,7 +456,7 @@ function validateAndSaveWhitelist(textareaId, statusTextId, storageKey) {
       //dedupe valid lines (case insensitive)
       validLines = Array.from(new Set(validLines));
 
-      chrome.storage.sync.set(
+      chrome.storage.local.set(
         {
           [storageKey]: validLines,
         },
@@ -582,7 +582,7 @@ function saveValuesToAllOtherWhitelists(sourceTextareaId, values) {
     }
   }
 
-  chrome.storage.sync.set(toSet, () => {
+  chrome.storage.local.set(toSet, () => {
     window.YoutubeAntiTranslate?.logInfo?.(
       "Whitelists overwritten across all categories",
     );
@@ -599,7 +599,7 @@ function apiKeyUpdate() {
   );
   const saveButtonText = document.getElementById("save-api-key-text");
 
-  chrome.storage.sync.get(
+  chrome.storage.local.get(
     {
       youtubeDataApiKey: null,
     },
@@ -608,7 +608,7 @@ function apiKeyUpdate() {
         return;
       }
 
-      chrome.storage.sync.set(
+      chrome.storage.local.set(
         {
           youtubeDataApiKey: newApiKey,
         },

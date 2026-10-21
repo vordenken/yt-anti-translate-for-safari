@@ -1,3 +1,8 @@
+/* safari-main-world */
+// Safari: runs as a MAIN-world content script; the IIFE keeps module-like scope
+// prettier-ignore
+(async () => {
+"use strict";
 const ORIGINAL_TRANSLATIONS = [
   "original", // English (en)
   "оригинал", // Russian (ru_RU)
@@ -228,4 +233,6 @@ async function untranslate() {
   } else {
     setTimeout(waitForYoutubeAntiTranslate, 8);
   }
+})();
+
 })();

@@ -3,15 +3,13 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 describe("content_start", () => {
   let originalChrome;
 
-  async function loadModuleWithItems(items) {
+  async function loadModule() {
     vi.resetModules();
 
     window.chrome = /** @type {any} */ ({
       storage: {
-        sync: {
-          get: vi.fn((defaults, callback) =>
-            callback({ ...defaults, ...items }),
-          ),
+        local: {
+          get: vi.fn((defaults, callback) => callback({ ...defaults })),
         },
       },
       runtime: {
@@ -27,12 +25,6 @@ describe("content_start", () => {
     await Promise.resolve();
   }
 
-  function getInjectedScriptSources() {
-    return Array.from(document.querySelectorAll("script")).map(
-      (script) => script.getAttribute("src") || "",
-    );
-  }
-
   beforeEach(() => {
     originalChrome = window.chrome;
     document.body.innerHTML = "";
@@ -46,37 +38,17 @@ describe("content_start", () => {
     vi.restoreAllMocks();
   });
 
-  it("does not inject the subtitles script when the subtitles checkbox is off", async () => {
-    await loadModuleWithItems({
-      untranslateTitle: false,
-      untranslateAudio: false,
-      untranslateDescription: false,
-      untranslateChapters: false,
-      untranslateChannelBranding: false,
-      untranslateNotification: false,
-      untranslateThumbnail: false,
-      subtitlesEnabled: false,
-    });
+  it("does not inject <script> tags (page scripts run in the MAIN world)", async () => {
+    await loadModule();
 
-    expect(getInjectedScriptSources()).not.toContain(
-      "chrome-extension://test/src/background_subtitles.js",
-    );
+    expect(document.querySelectorAll("script")).toHaveLength(0);
   });
 
-  it("injects the subtitles script when the subtitles checkbox is on", async () => {
-    await loadModuleWithItems({
-      untranslateTitle: false,
-      untranslateAudio: false,
-      untranslateDescription: false,
-      untranslateChapters: false,
-      untranslateChannelBranding: false,
-      untranslateNotification: false,
-      untranslateThumbnail: false,
-      subtitlesEnabled: true,
-    });
+  it("registers the reload message listener", async () => {
+    await loadModule();
 
-    expect(getInjectedScriptSources()).toContain(
-      "chrome-extension://test/src/background_subtitles.js",
+    expect(window.chrome.runtime.onMessage.addListener).toHaveBeenCalledTimes(
+      1,
     );
   });
 });

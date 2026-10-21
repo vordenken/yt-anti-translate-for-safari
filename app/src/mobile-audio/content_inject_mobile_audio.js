@@ -1,5 +1,5 @@
 // Load scripts that will run in page environment
-chrome.storage.sync.get(
+chrome.storage.local.get(
   {
     disabled: false,
     untranslateAudio: true,

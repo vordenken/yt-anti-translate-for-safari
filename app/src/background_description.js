@@ -1,3 +1,8 @@
+/* safari-main-world */
+// Safari: runs as a MAIN-world content script; the IIFE keeps module-like scope
+// prettier-ignore
+(async () => {
+"use strict";
 // Constants
 const DESCRIPTION_SELECTOR =
   "#description-inline-expander, ytd-expander#description, .expandable-video-description-body-main, .expandable-video-description-container, #collapsed-string, #expanded-string, #anchored-panel ytd-text-inline-expander";
@@ -1752,3 +1757,5 @@ if (typeof module !== "undefined" && module.exports) {
     findChapterByTime,
   };
 }
+
+})();

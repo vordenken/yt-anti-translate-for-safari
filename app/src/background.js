@@ -1,3 +1,8 @@
+/* safari-main-world */
+// Safari: runs as a MAIN-world content script; the IIFE keeps module-like scope
+// prettier-ignore
+(async () => {
+"use strict";
 //For intersect we are not switching to debounce
 //as the callback will handle multiple elements entering them sigularly
 const INTERSECTION_UPDATE_STEP_VIDEOS = 2;
@@ -2484,3 +2489,5 @@ function trimDescriptionByWords(description) {
 
   return truncated;
 }
+
+})();

@@ -1,3 +1,8 @@
+/* safari-main-world */
+// Safari: runs as a MAIN-world content script; the IIFE keeps module-like scope
+// prettier-ignore
+(async () => {
+"use strict";
 /* eslint-disable @typescript-eslint/no-this-alias */
 
 const pendingRequests = new Map();
@@ -1310,11 +1315,14 @@ ytm-shorts-lockup-view-model`,
   },
 
   getSettings: async function () {
-    if (!this.settingsElement) {
+    for (let i = 0; !this.settingsElement && i < 60; i++) {
       // @ts-expect-error - fix type
       this.settingsElement = window.YoutubeAntiTranslate.querySelector(
-        'script[type="module"][data-ytantitranslatesettings]',
+        "[data-ytantitranslatesettings]",
       );
+      if (!this.settingsElement) {
+        await new Promise((r) => setTimeout(r, 50));
+      }
     }
 
     if (this.settingsElement?.dataset?.ytantitranslatesettings) {
@@ -1326,8 +1334,8 @@ ytm-shorts-lockup-view-model`,
     }
 
     // Fallback: read from Chrome storage
-    if (chrome?.storage?.sync?.get) {
-      return await chrome.storage.sync.get({
+    if (typeof chrome !== "undefined" && chrome.storage?.local?.get) {
+      return await chrome.storage.local.get({
         disabled: false,
         untranslateTitle: true,
         whiteListUntranslateTitle: [],
@@ -2562,3 +2570,5 @@ ytm-shorts-lockup-view-model`,
     this.__qsTotals.totalMs = 0;
   },
 };
+
+})();
