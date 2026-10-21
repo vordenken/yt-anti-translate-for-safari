@@ -11,7 +11,7 @@ import SafariServices
 typealias PlatformViewController = NSViewController
 #endif
 
-let extensionBundleIdentifier = "com.yourCompany.YouTube-Anti-Translate.Extension"
+let extensionBundleIdentifier = "com.vd.YouTube-Anti-Translate.Extension"
 
 class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
